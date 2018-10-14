@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="date" content="2018-09-27" />
+
+<title>SAVER Tutorial</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">SAVER Tutorial</h1>
+<h4 class="date"><em>2018-09-27</em></h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#getting-started">Getting Started</a><ul>
+<li><a href="#preprocessing">Preprocessing</a></li>
+<li><a href="#running-saver">Running SAVER</a></li>
+<li><a href="#using-saver-estimates">Using SAVER estimates</a></li>
+</ul></li>
+<li><a href="#additional-settings">Additional Settings</a><ul>
+<li><a href="#normalization">Normalization</a></li>
+<li><a href="#predicting-certain-genes">Predicting certain genes</a></li>
+<li><a href="#using-other-predictions">Using other predictions</a></li>
+<li><a href="#creating-your-own-parallel-backend">Creating your own parallel backend</a></li>
+<li><a href="#combining-saver-objects">Combining SAVER objects</a></li>
+<li><a href="#sampling-example">Sampling example</a></li>
+<li><a href="#correlation-example">Correlation example</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>SAVER (Single-cell Analyses Via Expression Recovery) is a method for denoising single-cell RNA sequencing data by borrowing information across genes and cells. Here, we demonstrate how to use the method. For more information, take a look at the <a href="https://github.com/mohuangx/SAVER">Github page</a> and the <a href="https://doi.org/10.1038/s41592-018-0033-z">paper</a>.</p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>You can install the most recent updates of SAVER from github with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages(&quot;devtools&quot;)</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;mohuangx/SAVER&quot;</span>)</a></code></pre></div>
+<p>To install the stable release of SAVER:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages(&quot;devtools&quot;)</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;mohuangx/SAVER@*release&quot;</span>)</a></code></pre></div>
+</div>
+<div id="getting-started" class="section level2">
+<h2>Getting Started</h2>
+<p>Once we have the package installed, we can load the package.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(SAVER)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;SAVER&quot;</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [1] '1.1.1'</span></a></code></pre></div>
+<p>In this tutorial, we will run SAVER on the <a href="https://storage.googleapis.com/linnarsson-lab-www-blobs/blobs/cortex/expression_mRNA_17-Aug-2014.txt">mouse cortex data</a> from <a href="http://www.sciencemag.org/content/early/2015/02/18/science.aaa1934.abstract">Zeisel (2015)</a>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">data.path &lt;-<span class="st"> &quot;../data/expression_mRNA_17-Aug-2014.txt&quot;</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># Need to remove first 10 rows of metadata</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">raw.data &lt;-<span class="st"> </span><span class="kw">read.table</span>(data.path, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">skip =</span> <span class="dv">11</span>, <span class="dt">row.names =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">                <span class="dt">check.names =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">cortex &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(raw.data[, <span class="dv">-1</span>])</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">cellnames &lt;-<span class="st"> </span><span class="kw">read.table</span>(data.path, <span class="dt">skip =</span> <span class="dv">7</span>, <span class="dt">nrows =</span> <span class="dv">1</span>, <span class="dt">row.names =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">                        <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw">colnames</span>(cortex) &lt;-<span class="st"> </span>cellnames[<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="kw">dim</span>(cortex)</a></code></pre></div>
+<div id="preprocessing" class="section level3">
+<h3>Preprocessing</h3>
+<p>The input to SAVER is a matrix of gene expression counts with genes along the rows and cells along the columns. SAVER was developed for use on UMI count data but it seems to work well with non-UMI TPM data. Standard quality control such as removing low quality cells and filtering out genes with low expression should be performed prior to running SAVER.</p>
+<p>Here, the Zeisel dataset has already been preprocessed.</p>
+</div>
+<div id="running-saver" class="section level3">
+<h3>Running SAVER</h3>
+<p>The main function to run SAVER is the <code>saver</code> function. Since SAVER is computationally intensive for large datasets, we recommend running it in parallel on a cluster either by creating your own parallel environment or by specifying <code>ncores</code>. We will run SAVER on the Zeisel dataset across 12 cores.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">cortex.saver &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">ncores =</span> <span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">str</span>(cortex.saver)</a></code></pre></div>
+<p><code>cortex.saver</code> is a saver object with the following components:</p>
+<ul>
+<li><code>estimate</code> gives the library size normalized SAVER estimates.</li>
+<li><code>se</code> gives the standard error of the estimates</li>
+<li><code>info</code> gives the more information about the run.</li>
+</ul>
+<p>If you are only interested in the estimate, you can run <code>saver</code> setting <code>estimates.only = TRUE</code>. For example,</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cortex.saver &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">ncores =</span> <span class="dv">12</span>, <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+</div>
+<div id="using-saver-estimates" class="section level3">
+<h3>Using SAVER estimates</h3>
+<p>The SAVER estimates represent the library size normalized posterior means of the recovered gene expression. They can be used as input to many of the common downstream analysis methods such as <a href="https://satijalab.org/seurat/">Seurat</a> and <a href="http://cole-trapnell-lab.github.io/monocle-release/">Monocle</a>.</p>
+</div>
+</div>
+<div id="additional-settings" class="section level2">
+<h2>Additional Settings</h2>
+<div id="normalization" class="section level3">
+<h3>Normalization</h3>
+<p>By default, SAVER takes in an unnormalized count matrix and performs library size normalization during the denoising step. However, if your data is already normalized or normalization is not desired, you can set <code>size.factor = 1</code>. In addition, if you want to use custom cell size factors, you can set <code>size.factor</code> to be a vector of size factors.</p>
+</div>
+<div id="predicting-certain-genes" class="section level3">
+<h3>Predicting certain genes</h3>
+<p>SAVER has two main steps: the first is the prediction step and the second is a shrinkage step. The prediction step is the time-consuming part of SAVER. If you are only interested in a handful of genes, you can specify those genes and generate predictions for those genes only and choose to return the entire data matrix or for those genes only. For example,</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Identify the indices of the genes of interest</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">genes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Thy1&quot;</span>, <span class="st">&quot;Mbp&quot;</span>, <span class="st">&quot;Stim2&quot;</span>, <span class="st">&quot;Psmc6&quot;</span>, <span class="st">&quot;Rps19&quot;</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">genes.ind &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">rownames</span>(cortex) <span class="op">%in%</span><span class="st"> </span>genes)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Generate predictions for those genes and return entire dataset</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">cortex.saver.genes &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">pred.genes =</span> genes.ind, </a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">                            <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co"># Generate predictions for those genes and return only those genes</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">cortex.saver.genes.only &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">pred.genes =</span> genes.ind, </a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">                                 <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>, <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+</div>
+<div id="using-other-predictions" class="section level3">
+<h3>Using other predictions</h3>
+<p>The main contribution of SAVER is the shrinkage step after generating the predictions. The shrinkage step allows the algorithm to adaptively evaluate the quality of the predictions and weigh the estimates either towards the predictions or the observed value. SAVER performs a Lasso Poisson regression for each gene using other genes as covariates to generate the predictions. However, if you want to use other predictions such as <a href="https://github.com/KrishnaswamyLab/MAGIC">MAGIC</a> or <a href="https://github.com/theislab/dca">DCA</a>, you can input the results in matrix format into the <code>mu</code> parameter of the <code>saver</code> function.</p>
+</div>
+<div id="creating-your-own-parallel-backend" class="section level3">
+<h3>Creating your own parallel backend</h3>
+<p>By default, if you specify <code>ncores</code> without already having a parallel backend set up, <code>saver</code> will make a default cluster using the <code>makeCluster</code> function in the parallel package and register a parallel backend via the <code>registerDoParallel</code> function in the doParallel package. However, if you want to set up a more complicated backend, such as using MPI across nodes, you can do so and run <code>saver</code> without specifying the <code>ncores</code> option.</p>
+</div>
+<div id="combining-saver-objects" class="section level3">
+<h3>Combining SAVER objects</h3>
+<p>Running SAVER on large datasets may run into memory issues, especially when parallelized across cores where each core has limited memory. One solution would be to register a parallel backend using SOCK or MPI to parallelize across nodes. Another solution would be to split the genes into multiple runs using <code>pred.genes</code> and <code>pred.genes.only</code>. For example, say we have a dataset <code>x</code> with 10,000 genes. We can split this up into 4 runs on different machines and combine using the <code>combine.saver</code> function. We recommend setting <code>do.fast = FALSE</code> when splitting the dataset.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">saver1 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2500</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">saver2 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">2501</span><span class="op">:</span><span class="dv">5000</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">saver3 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">5001</span><span class="op">:</span><span class="dv">7500</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">saver4 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">7501</span><span class="op">:</span><span class="dv">10000</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">saver.all &lt;-<span class="st"> </span><span class="kw">combine.saver</span>(<span class="kw">list</span>(saver1, saver2, saver3, saver4))</a></code></pre></div>
+</div>
+<div id="sampling-example" class="section level3">
+<h3>Sampling example</h3>
+<p>Oftentimes for downstream analysis, you may want to sample from the posterior distributions to account for estimation uncertainty. This is similar to performing multiple imputation to obtain multiple imputed datasets. To sample from the posterior distributions, we use the function <code>sample.saver</code>, which takes in the <code>saver</code> result and outputs sampled datasets. For example,</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">samp1 &lt;-<span class="st"> </span><span class="kw">sample.saver</span>(saver1, <span class="dt">rep =</span> <span class="dv">1</span>, <span class="dt">seed =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">samp5 &lt;-<span class="st"> </span><span class="kw">sample.saver</span>(saver1, <span class="dt">rep =</span> <span class="dv">5</span>, <span class="dt">seed =</span> <span class="dv">50</span>)</a></code></pre></div>
+</div>
+<div id="correlation-example" class="section level3">
+<h3>Correlation example</h3>
+<p>Because the SAVER estimates contain uncertainty, correlations between genes and cells cannot be directly calculated using the SAVER estimates. To adjust for the uncertainty, we provide the functions <code>cor.genes</code> and <code>cor.cells</code> to construct gene-to-gene and cell-to-cell correlation matrices respectively for the SAVER output. These functions take in the <code>saver</code> result and outputs the gene-to-gene or cell-to-cell correlation matrix. For example,</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">saver1.cor.gene &lt;-<span class="st"> </span><span class="kw">cor.genes</span>(saver1)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">saver1.cor.cell &lt;-<span class="st"> </span><span class="kw">cor.cells</span>(saver1)</a></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
