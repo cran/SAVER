@@ -109,12 +109,13 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
 
     n2 <- min(max(100, nworkers), npred)
     t2 <- Sys.time()
-    d1 <- difftime(t2, t1, units = "secs")/n1
+    d1 <- mean(info$pred.time[ind[1:n1]] + info$var.time[ind[1:n1]])/nworkers
     perc.pred <- 0.5
     n3 <- min(max(ceiling(n2/perc.pred), nworkers) + n2, npred)
     tdiff <- d1*(n2-n1) + d1*(n3-n2)*perc.pred +
       d1/n1*(npred-n3)*perc.pred/20 +
-      (ngenes-npred)*mean(info$var.time[ind[1:n1]])/nworkers
+      (ngenes-npred)*mean(info$var.time[ind[1:n1]])/3/nworkers
+    tdiff <- as.difftime(tdiff, units = "secs")
     message("Finished ", n1, "/", ngenes, " genes. Approximate finish time: ",
             Sys.time() + tdiff)
 
@@ -163,10 +164,10 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
     ind3 <- ind[(n2+1):n3]
 
     t3 <- Sys.time()
-    d2 <- difftime(t3, t1, units = "secs")/n2
+    d2 <- mean(info$pred.time[ind[1:n2]] + info$var.time[ind[1:n2]])/nworkers
     tdiff <- d2*(n3-n2)*perc.pred + d2*(npred-n3)*perc.pred/20 +
-      (ngenes-npred)*mean(info$var.time[ind[1:n2]])/nworkers
-    units(tdiff) <- "secs"
+      (ngenes-npred)*mean(info$var.time[ind[1:n2]])/3/nworkers
+    tdiff <- as.difftime(tdiff, units = "secs")
     message("Finished ", n2, "/", ngenes, " genes. Approximate finish time: ",
             Sys.time() + tdiff)
 
@@ -208,10 +209,10 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
     perc.pred <- mean(info$maxcor[ind[1:n3]] > cutoff)
 
     t4 <- Sys.time()
-    d3 <- difftime(t4, t3, units = "secs")/(n3-n2)
+    d3 <- mean(info$pred.time[ind[1:n3]] + info$var.time[ind[1:n3]])/nworkers
     tdiff <- d3*(npred-n3)/20 +
-      (ngenes-npred)*mean(info$var.time[ind[1:n3]])/nworkers
-    units(tdiff) <- "secs"
+      (ngenes-npred)*mean(info$var.time[ind[1:n3]])/3/nworkers
+    tdiff <- as.difftime(tdiff, units = "secs")
     message("Finished ", n3, "/", ngenes, " genes. Approximate finish time: ",
             Sys.time() + tdiff)
 
@@ -264,7 +265,7 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
     t5 <- Sys.time()
     d4 <- difftime(t5, t4, units = "secs")/(n4-n3)
     tdiff <- d4*(npred-n4) +
-      (ngenes-npred)*mean(info$var.time[ind[1:n4]])/nworkers
+      (ngenes-npred)*mean(info$var.time[ind[1:n4]])/3/nworkers
     units(tdiff) <- "secs"
     message("Finished ", n4, "/", ngenes, " genes. Approximate finish time: ",
             Sys.time() + tdiff)
@@ -307,7 +308,7 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
     }
 
     t6 <- Sys.time()
-    tdiff <- (ngenes-npred)*mean(info$var.time[ind[1:n5]])/nworkers
+    tdiff <- (ngenes-npred)*mean(info$var.time[ind[1:n5]])/3/nworkers
     tdiff <- as.difftime(tdiff, units = "secs")
 
     if (n5 != ngenes) {
@@ -347,9 +348,10 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
     }
 
     t2 <- Sys.time()
-    d1 <- difftime(t2, t1, units = "secs")/n1
+    d1 <- mean(info$pred.time[ind[1:n1]] + info$var.time[ind[1:n1]])/nworkers
     tdiff <- d1*(npred-n1) +
-      (ngenes-npred)*mean(info$var.time[ind[1:n1]])/nworkers
+      (ngenes-npred)*mean(info$var.time[ind[1:n1]])/3/nworkers
+    tdiff <- as.difftime(tdiff, units = "secs")
     message("Finished ", n1, "/", ngenes, " genes. Approximate finish time: ",
             Sys.time() + tdiff)
 
@@ -392,7 +394,7 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
     t3 <- Sys.time()
     d2 <- difftime(t3, t1, units = "secs")/n2
     tdiff <- d2*(npred-n2) +
-      (ngenes-npred)*mean(info$var.time[ind[1:n2]])/nworkers
+      (ngenes-npred)*mean(info$var.time[ind[1:n2]])/3/nworkers
     message("Finished ", n2, "/", ngenes, " genes. Approximate finish time: ",
             Sys.time() + tdiff)
 
@@ -434,7 +436,7 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
     }
 
     t4 <- Sys.time()
-    tdiff <- (ngenes-npred)*mean(info$var.time[ind[1:n3]])/nworkers
+    tdiff <- (ngenes-npred)*mean(info$var.time[ind[1:n3]])/3/nworkers
     tdiff <- as.difftime(tdiff, units = "secs")
 
     if (n3 != ngenes) {
@@ -465,17 +467,18 @@ saver.fit <- function(x, x.est, do.fast, ncores, sf, scale.sf, pred.genes,
 saver.fit.mean <- function(x, ncores, sf, scale.sf, mu, ngenes = nrow(x),
                            ncells = ncol(x), gene.names = rownames(x),
                            cell.names = colnames(x), estimates.only) {
-  est <- matrix(0, ngenes, ncells, dimnames = list(gene.names, cell.names))
+  out <- list()
+  out$estimate <- matrix(0, ngenes, ncells, dimnames = list(gene.names, cell.names))
   if (!estimates.only) {
-    se <- matrix(0, ngenes, ncells, dimnames = list(gene.names, cell.names))
+    out$se <- matrix(0, ngenes, ncells, dimnames = list(gene.names, cell.names))
   } else {
-    se <- NA
+    out$se <- NA
   }
-  info <- c(list(0), rep(list(rep(0, ngenes)), 6), list(0), list(0), list(0))
-  names(info) <- c("size.factor", "maxcor", "lambda.max", "lambda.min",
+  out$info <- c(list(0), rep(list(rep(0, ngenes)), 6), list(0), list(0), list(0))
+  names(out$info) <- c("size.factor", "maxcor", "lambda.max", "lambda.min",
                    "sd.cv", "pred.time", "var.time", "cutoff", "lambda.coefs",
                    "total.time")
-  info$size.factor <- scale.sf*sf
+  out$info$size.factor <- scale.sf*sf
 
   nworkers <- ncores
   message("Running SAVER given prior means with ", nworkers, " worker(s)")
@@ -488,65 +491,50 @@ saver.fit.mean <- function(x, ncores, sf, scale.sf, mu, ngenes = nrow(x),
   ind1 <- ind[1:n1]
   message("Estimating finish time...")
   t1 <- Sys.time()
-  out <- calc.estimate.mean(x[ind1, , drop = FALSE], sf, scale.sf,
+  results <- calc.estimate.mean(x[ind1, , drop = FALSE], sf, scale.sf,
                             mu[ind1, , drop = FALSE], nworkers, estimates.only)
-  est[ind1, ] <- out$est
+  out$estimate[ind1, ] <- results$est
   if (!estimates.only) {
-    se[ind1, ] <- out$se
+    out$se[ind1, ] <- results$se
   }
   for (j in 1:6) {
-    info[[j+1]][ind1] <- out[[j+2]]
+    out$info[[j+1]][ind1] <- results[[j+2]]
   }
 
   if (n1 == ngenes) {
-    info[[10]] <- Sys.time() - st
-    return(list(estimate = est, se = se, info = info))
+    out$info[[10]] <- Sys.time() - st
+    return(out)
   }
-
-  n2 <- min(ceiling((ngenes-n1)/4 + n1), ngenes)
-  t2 <- Sys.time()
-  d1 <- difftime(t2, t1, units = "secs")/n1
+  
+  d1 <- mean(out$info$var.time[ind[1:n1]])/nworkers
   tdiff <- d1*(ngenes-n1)
+  tdiff <- as.difftime(tdiff, units = "secs")
   message("Finished ", n1, "/", ngenes, " genes. Approximate finish time: ",
           Sys.time() + tdiff)
+  
+  ngenes.left <- ngenes-n1
+  total.elem <- ngenes.left*ncells
+  
+  nsplit <- max(4, ceiling(total.elem/(2^31-1)))
+  
+  split.ind <- ceiling(seq(n1, ngenes, length.out = nsplit+1))
+  
+  t1 <- Sys.time()
+  for (i in 1:(length(split.ind)-1)) {
+    out <- update.output(calc.estimate.mean, ind, split.ind[i]+1, 
+                         split.ind[i+1], out, x, sf, scale.sf, mu, 
+                         nworkers, estimates.only)
+    t2 <- Sys.time()
+    d1 <- difftime(t2, t1, units = "secs")/(split.ind[i+1]-n1)
+    tdiff <- d1*(ngenes-split.ind[i+1])
+    tdiff <- as.difftime(tdiff, units = "secs")
+    message("Finished ", split.ind[i+1], "/", ngenes, 
+            " genes. Approximate finish time: ",
+            Sys.time() + tdiff)
+  }
 
-  ind2 <- ind[(n1+1):n2]
-  message("Estimating remaining genes...")
-  out <- calc.estimate.mean(x[ind2, , drop = FALSE], sf, scale.sf,
-                            mu[ind2, , drop = FALSE], nworkers, estimates.only)
-  est[ind2, ] <- out$est
-  if (!estimates.only) {
-    se[ind2, ] <- out$se
-  }
-  for (j in 1:6) {
-    info[[j+1]][ind2] <- out[[j+2]]
-  }
-
-  if (n2 == ngenes) {
-    info[[10]] <- Sys.time() - st
-    return(list(estimate = est, se = se, info = info))
-  }
-
-  n3 <- ngenes
-  t3 <- Sys.time()
-  d2 <- difftime(t3, t1, units = "secs")/n2
-  tdiff <- d1*(n3-n2)
-  message("Finished ", n2, "/", ngenes, " genes. Approximate finish time: ",
-          Sys.time() + tdiff)
-
-  ind3 <- ind[(n2+1):n3]
-  message("Estimating remaining genes...")
-  out <- calc.estimate.mean(x[ind3, , drop = FALSE], sf, scale.sf,
-                            mu[ind3, , drop = FALSE], nworkers, estimates.only)
-  est[ind3, ] <- out$est
-  if (!estimates.only) {
-    se[ind3, ] <- out$se
-  }
-  for (j in 1:6) {
-    info[[j+1]][ind3] <- out[[j+2]]
-  }
-  info[[10]] <- Sys.time() - st
-  return(list(estimate = est, se = se, info = info))
+  out$info[[10]] <- Sys.time() - st
+  return(out)
 }
 
 #' @rdname saver_fit
@@ -594,8 +582,9 @@ saver.fit.null <- function(x, ncores, sf, scale.sf, ngenes = nrow(x),
 
   n2 <- min(ceiling((ngenes-n1)/4 + n1), ngenes)
   t2 <- Sys.time()
-  d1 <- difftime(t2, t1, units = "secs")/n1
+  d1 <- mean(info$var.time[ind[1:n1]])/nworkers
   tdiff <- d1*(ngenes-n1)
+  tdiff <- as.difftime(tdiff, units = "secs")
   message("Finished ", n1, "/", ngenes, " genes. Approximate finish time: ",
           Sys.time() + tdiff)
 
@@ -619,7 +608,7 @@ saver.fit.null <- function(x, ncores, sf, scale.sf, ngenes = nrow(x),
   n3 <- ngenes
   t3 <- Sys.time()
   d2 <- difftime(t3, t1, units = "secs")/n2
-  tdiff <- d1*(n3-n2)
+  tdiff <- d2*(n3-n2)
   message("Finished ", n2, "/", ngenes, " genes. Approximate finish time: ",
           Sys.time() + tdiff)
 

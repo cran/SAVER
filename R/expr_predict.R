@@ -28,7 +28,7 @@
 #'
 #' @return A vector of predicted gene expression.
 #'
-#' @importFrom stats sd
+#' @importFrom stats sd predict
 #' @export
 expr.predict <- function(x, y, pred.cells = 1:length(y), seed = NULL,
                          lambda.max = NULL, lambda.min = NULL) {
@@ -51,7 +51,7 @@ expr.predict <- function(x, y, pred.cells = 1:length(y), seed = NULL,
       lambda.min <- 0
       sd.cv <- 0
     } else {
-      mu <- c(glmnet::predict.cv.glmnet(cv, newx = x, s = "lambda.min",
+      mu <- c(predict(cv, newx = x, s = "lambda.min",
                                         type="response"))
       lambda.max <- cv$lambda[1]
       lambda.min <- cv$lambda.min

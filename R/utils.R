@@ -7,8 +7,16 @@ clean.data <- function(x) {
       warning("Make sure x is numeric.")
     }
   }
-  x[x < 0.001] <- 0
   np <- dim(x)
+  size <- as.numeric(np[1])*as.numeric(np[2])
+  if(size > 2^31-1){
+    inds <- split(1:np[2], ceiling(1:np[2]/1000))
+    for(i in 1:length(inds)){
+      x[, inds[[i]]][x[, inds[[i]]] < 0.001] <- 0
+    }
+  } else {
+    x[x < 0.001] <- 0
+  }
   if (is.null(np) | (np[2] <= 1))
     stop("x should be a matrix with 2 or more columns")
   if (min(Matrix::colSums(x)) == 0) {
@@ -40,6 +48,22 @@ check.mu <- function(x, mu) {
     mu <- mu[, Matrix::colSums(x) != 0]
   }
   mu
+}
+
+update.output <- function(f, ind, start, stop, out, x, sf, scale.sf, mu, 
+                          nworkers, estimates.only) {
+  n <- stop-start+1
+  ind1 <- ind[start:stop]
+  results <- f(x[ind1, , drop = FALSE], sf, scale.sf,
+               mu[ind1, , drop = FALSE], nworkers, estimates.only)
+  out$estimate[ind1, ] <- results$est
+  if (!estimates.only) {
+    out$se[ind1, ] <- results$se
+  }
+  for (j in 1:6) {
+    out$info[[j+1]][ind1] <- results[[j+2]]
+  }
+  return(out)
 }
 
 

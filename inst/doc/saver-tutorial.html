@@ -7,21 +7,22 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2018-09-27" />
+<meta name="date" content="2019-11-12" />
 
 <title>SAVER Tutorial</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -31,14 +32,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -47,9 +50,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -80,7 +83,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -268,6 +293,9 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -276,7 +304,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <h1 class="title toc-ignore">SAVER Tutorial</h1>
-<h4 class="date"><em>2018-09-27</em></h4>
+<h4 class="date">2019-11-12</h4>
 
 
 <div id="TOC">
@@ -303,31 +331,31 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="installation" class="section level2">
 <h2>Installation</h2>
 <p>You can install the most recent updates of SAVER from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages(&quot;devtools&quot;)</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;mohuangx/SAVER&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;mohuangx/SAVER&quot;</span>)</span></code></pre></div>
 <p>To install the stable release of SAVER:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages(&quot;devtools&quot;)</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;mohuangx/SAVER@*release&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;mohuangx/SAVER@*release&quot;</span>)</span></code></pre></div>
 </div>
 <div id="getting-started" class="section level2">
 <h2>Getting Started</h2>
 <p>Once we have the package installed, we can load the package.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(SAVER)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">packageVersion</span>(<span class="st">&quot;SAVER&quot;</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [1] '1.1.1'</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(SAVER)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">packageVersion</span>(<span class="st">&quot;SAVER&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; [1] &#39;1.1.2&#39;</span></span></code></pre></div>
 <p>In this tutorial, we will run SAVER on the <a href="https://storage.googleapis.com/linnarsson-lab-www-blobs/blobs/cortex/expression_mRNA_17-Aug-2014.txt">mouse cortex data</a> from <a href="http://www.sciencemag.org/content/early/2015/02/18/science.aaa1934.abstract">Zeisel (2015)</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">data.path &lt;-<span class="st"> &quot;../data/expression_mRNA_17-Aug-2014.txt&quot;</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># Need to remove first 10 rows of metadata</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">raw.data &lt;-<span class="st"> </span><span class="kw">read.table</span>(data.path, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">skip =</span> <span class="dv">11</span>, <span class="dt">row.names =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">                <span class="dt">check.names =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">cortex &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(raw.data[, <span class="dv">-1</span>])</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">cellnames &lt;-<span class="st"> </span><span class="kw">read.table</span>(data.path, <span class="dt">skip =</span> <span class="dv">7</span>, <span class="dt">nrows =</span> <span class="dv">1</span>, <span class="dt">row.names =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">                        <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw">colnames</span>(cortex) &lt;-<span class="st"> </span>cellnames[<span class="op">-</span><span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="kw">dim</span>(cortex)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>data.path &lt;-<span class="st"> &quot;../data/expression_mRNA_17-Aug-2014.txt&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># Need to remove first 10 rows of metadata</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>raw.data &lt;-<span class="st"> </span><span class="kw">read.table</span>(data.path, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">skip =</span> <span class="dv">11</span>, <span class="dt">row.names =</span> <span class="dv">1</span>, </span>
+<span id="cb4-5"><a href="#cb4-5"></a>                <span class="dt">check.names =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb4-6"><a href="#cb4-6"></a>cortex &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(raw.data[, <span class="dv">-1</span>])</span>
+<span id="cb4-7"><a href="#cb4-7"></a></span>
+<span id="cb4-8"><a href="#cb4-8"></a>cellnames &lt;-<span class="st"> </span><span class="kw">read.table</span>(data.path, <span class="dt">skip =</span> <span class="dv">7</span>, <span class="dt">nrows =</span> <span class="dv">1</span>, <span class="dt">row.names =</span> <span class="dv">1</span>, </span>
+<span id="cb4-9"><a href="#cb4-9"></a>                        <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="kw">colnames</span>(cortex) &lt;-<span class="st"> </span>cellnames[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-11"><a href="#cb4-11"></a></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="kw">dim</span>(cortex)</span></code></pre></div>
 <div id="preprocessing" class="section level3">
 <h3>Preprocessing</h3>
 <p>The input to SAVER is a matrix of gene expression counts with genes along the rows and cells along the columns. SAVER was developed for use on UMI count data but it seems to work well with non-UMI TPM data. Standard quality control such as removing low quality cells and filtering out genes with low expression should be performed prior to running SAVER.</p>
@@ -336,8 +364,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="running-saver" class="section level3">
 <h3>Running SAVER</h3>
 <p>The main function to run SAVER is the <code>saver</code> function. Since SAVER is computationally intensive for large datasets, we recommend running it in parallel on a cluster either by creating your own parallel environment or by specifying <code>ncores</code>. We will run SAVER on the Zeisel dataset across 12 cores.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">cortex.saver &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">ncores =</span> <span class="dv">12</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">str</span>(cortex.saver)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>cortex.saver &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">ncores =</span> <span class="dv">12</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">str</span>(cortex.saver)</span></code></pre></div>
 <p><code>cortex.saver</code> is a saver object with the following components:</p>
 <ul>
 <li><code>estimate</code> gives the library size normalized SAVER estimates.</li>
@@ -345,7 +373,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li><code>info</code> gives the more information about the run.</li>
 </ul>
 <p>If you are only interested in the estimate, you can run <code>saver</code> setting <code>estimates.only = TRUE</code>. For example,</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cortex.saver &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">ncores =</span> <span class="dv">12</span>, <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>cortex.saver &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">ncores =</span> <span class="dv">12</span>, <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="using-saver-estimates" class="section level3">
 <h3>Using SAVER estimates</h3>
@@ -361,17 +389,17 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="predicting-certain-genes" class="section level3">
 <h3>Predicting certain genes</h3>
 <p>SAVER has two main steps: the first is the prediction step and the second is a shrinkage step. The prediction step is the time-consuming part of SAVER. If you are only interested in a handful of genes, you can specify those genes and generate predictions for those genes only and choose to return the entire data matrix or for those genes only. For example,</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Identify the indices of the genes of interest</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">genes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Thy1&quot;</span>, <span class="st">&quot;Mbp&quot;</span>, <span class="st">&quot;Stim2&quot;</span>, <span class="st">&quot;Psmc6&quot;</span>, <span class="st">&quot;Rps19&quot;</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">genes.ind &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">rownames</span>(cortex) <span class="op">%in%</span><span class="st"> </span>genes)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Generate predictions for those genes and return entire dataset</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">cortex.saver.genes &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">pred.genes =</span> genes.ind, </a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">                            <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co"># Generate predictions for those genes and return only those genes</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">cortex.saver.genes.only &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">pred.genes =</span> genes.ind, </a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">                                 <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>, <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Identify the indices of the genes of interest</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>genes &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Thy1&quot;</span>, <span class="st">&quot;Mbp&quot;</span>, <span class="st">&quot;Stim2&quot;</span>, <span class="st">&quot;Psmc6&quot;</span>, <span class="st">&quot;Rps19&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>genes.ind &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">rownames</span>(cortex) <span class="op">%in%</span><span class="st"> </span>genes)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co"># Generate predictions for those genes and return entire dataset</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>cortex.saver.genes &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">pred.genes =</span> genes.ind, </span>
+<span id="cb7-7"><a href="#cb7-7"></a>                            <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co"># Generate predictions for those genes and return only those genes</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>cortex.saver.genes.only &lt;-<span class="st"> </span><span class="kw">saver</span>(cortex, <span class="dt">pred.genes =</span> genes.ind, </span>
+<span id="cb7-11"><a href="#cb7-11"></a>                                 <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>, <span class="dt">estimates.only =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="using-other-predictions" class="section level3">
 <h3>Using other predictions</h3>
@@ -384,31 +412,34 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="combining-saver-objects" class="section level3">
 <h3>Combining SAVER objects</h3>
 <p>Running SAVER on large datasets may run into memory issues, especially when parallelized across cores where each core has limited memory. One solution would be to register a parallel backend using SOCK or MPI to parallelize across nodes. Another solution would be to split the genes into multiple runs using <code>pred.genes</code> and <code>pred.genes.only</code>. For example, say we have a dataset <code>x</code> with 10,000 genes. We can split this up into 4 runs on different machines and combine using the <code>combine.saver</code> function. We recommend setting <code>do.fast = FALSE</code> when splitting the dataset.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">saver1 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2500</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">saver2 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">2501</span><span class="op">:</span><span class="dv">5000</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">saver3 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">5001</span><span class="op">:</span><span class="dv">7500</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">saver4 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">7501</span><span class="op">:</span><span class="dv">10000</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10">saver.all &lt;-<span class="st"> </span><span class="kw">combine.saver</span>(<span class="kw">list</span>(saver1, saver2, saver3, saver4))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>saver1 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2500</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb8-2"><a href="#cb8-2"></a>                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>saver2 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">2501</span><span class="op">:</span><span class="dv">5000</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a>saver3 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">5001</span><span class="op">:</span><span class="dv">7500</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb8-6"><a href="#cb8-6"></a>                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb8-7"><a href="#cb8-7"></a>saver4 &lt;-<span class="st"> </span><span class="kw">saver</span>(x, <span class="dt">pred.genes =</span> <span class="dv">7501</span><span class="op">:</span><span class="dv">10000</span>, <span class="dt">pred.genes.only =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb8-8"><a href="#cb8-8"></a>                <span class="dt">do.fast =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb8-9"><a href="#cb8-9"></a></span>
+<span id="cb8-10"><a href="#cb8-10"></a>saver.all &lt;-<span class="st"> </span><span class="kw">combine.saver</span>(<span class="kw">list</span>(saver1, saver2, saver3, saver4))</span></code></pre></div>
 </div>
 <div id="sampling-example" class="section level3">
 <h3>Sampling example</h3>
 <p>Oftentimes for downstream analysis, you may want to sample from the posterior distributions to account for estimation uncertainty. This is similar to performing multiple imputation to obtain multiple imputed datasets. To sample from the posterior distributions, we use the function <code>sample.saver</code>, which takes in the <code>saver</code> result and outputs sampled datasets. For example,</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">samp1 &lt;-<span class="st"> </span><span class="kw">sample.saver</span>(saver1, <span class="dt">rep =</span> <span class="dv">1</span>, <span class="dt">seed =</span> <span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">samp5 &lt;-<span class="st"> </span><span class="kw">sample.saver</span>(saver1, <span class="dt">rep =</span> <span class="dv">5</span>, <span class="dt">seed =</span> <span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>samp1 &lt;-<span class="st"> </span><span class="kw">sample.saver</span>(saver1, <span class="dt">rep =</span> <span class="dv">1</span>, <span class="dt">seed =</span> <span class="dv">50</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>samp5 &lt;-<span class="st"> </span><span class="kw">sample.saver</span>(saver1, <span class="dt">rep =</span> <span class="dv">5</span>, <span class="dt">seed =</span> <span class="dv">50</span>)</span></code></pre></div>
 </div>
 <div id="correlation-example" class="section level3">
 <h3>Correlation example</h3>
 <p>Because the SAVER estimates contain uncertainty, correlations between genes and cells cannot be directly calculated using the SAVER estimates. To adjust for the uncertainty, we provide the functions <code>cor.genes</code> and <code>cor.cells</code> to construct gene-to-gene and cell-to-cell correlation matrices respectively for the SAVER output. These functions take in the <code>saver</code> result and outputs the gene-to-gene or cell-to-cell correlation matrix. For example,</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">saver1.cor.gene &lt;-<span class="st"> </span><span class="kw">cor.genes</span>(saver1)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">saver1.cor.cell &lt;-<span class="st"> </span><span class="kw">cor.cells</span>(saver1)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>saver1.cor.gene &lt;-<span class="st"> </span><span class="kw">cor.genes</span>(saver1)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>saver1.cor.cell &lt;-<span class="st"> </span><span class="kw">cor.cells</span>(saver1)</span></code></pre></div>
 </div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

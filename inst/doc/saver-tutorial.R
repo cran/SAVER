@@ -5,11 +5,7 @@
 eval.saver <- FALSE
 
 ## ----setup, include = FALSE----------------------------------------------
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  eval = eval.saver
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", eval = eval.saver)
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  # install.packages("devtools")
